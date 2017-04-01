@@ -14,7 +14,13 @@
             <h3>Angular is working? {{ isWorking }}</h3>
         </div>
 
-        <div ng-controller="loanForm">
+        <div ng-controller="loanOptions" class="loan-options">
+            <div ng-repeat="option in loanOptions" >
+                {{option.name}} | ({{option.interest}}%)
+            </div>
+        </div>
+
+        <div ng-controller="loanForm" class="loan-form">
             <h2>Enter Loan Details</h2>
             <form>
                 <div class="form-field">
