@@ -24,13 +24,13 @@
             <h2>Enter Loan Details</h2>
             <form>
                 <div class="form-field">
-                    <label>Loan Amount: <input type="text" ng-model="loan.amount" /></label>
+                    <label>Loan Amount: <input type="text" ng-model="loan.amount" placeholder="ex: 50000" /></label>
                 </div>
                 <div class="form-field">
-                    <label>Loan Interest: <input type="text" ng-model="loan.interest" /></label>
+                    <label>Loan Interest: <input type="text" ng-model="loan.interest" placeholder="ex: .03" /></label>
                 </div>
                 <div class="form-field">
-                    <label>Loan Period (in months): <input type="text" ng-model="loan.period" /></label>
+                    <label>Loan Period (in months): <input type="text" ng-model="loan.period" placeholder="ex: 60" /></label>
                 </div>
                 <div class="form-field">
                     <input type="button" ng-click="submit(loan)" value="Submit" />

@@ -17,7 +17,21 @@ app.controller('loanOptions', function($scope, loanService) {
 
 app.controller('loanForm', function($scope) {
     $scope.submit = function(loan) {
-        console.log(loan);
+        calcMonthlyPayment(loan.amount, loan.interest, loan.period)
+    };
+
+    var calcMonthlyPayment = function(amount, interest, period) {
+        // FORMULA M = P * (J / (1 - (1 + J)^-N))
+        // M = payment amount
+        // P = principal (amount borrowed)
+        // J = interest rate
+        // N = number of payments (time)
+
+        var monthlyInterest = interest / 12;
+
+        var monthlyPayment = amount * (monthlyInterest / (1 - (Math.pow(1 + monthlyInterest, (-1 * period)))));
+        console.log(monthlyPayment);
+        return monthlyPayment;
     }
 });
 
