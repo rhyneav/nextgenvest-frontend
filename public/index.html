@@ -13,6 +13,25 @@
             <h1>App is running!</h1>
             <h3>Angular is working? {{ isWorking }}</h3>
         </div>
+
+        <div ng-controller="loanForm">
+            <h2>Enter Loan Details</h2>
+            <form>
+                <div class="form-field">
+                    <label>Loan Amount: <input type="text" ng-model="loan.amount" /></label>
+                </div>
+                <div class="form-field">
+                    <label>Loan Interest: <input type="text" ng-model="loan.interest" /></label>
+                </div>
+                <div class="form-field">
+                    <label>Loan Period (in months): <input type="text" ng-model="loan.period" /></label>
+                </div>
+                <div class="form-field">
+                    <input type="button" ng-click="submit(loan)" value="Submit" />
+                </div>
+
+            </form>
+        </div>
     </div>
 </body>
 </html>
