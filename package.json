@@ -1,0 +1,25 @@
+{
+  "name": "nextgenvest-frontend",
+  "version": "1.0.0",
+  "description": "For the nextgenvest application",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhyneav/nextgenvest-frontend.git"
+  },
+  "author": "Rhyne Vlaservich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rhyneav/nextgenvest-frontend/issues"
+  },
+  "homepage": "https://github.com/rhyneav/nextgenvest-frontend#readme",
+  "dependencies": {
+    "angular": "^1.6.3",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
+  }
+}
