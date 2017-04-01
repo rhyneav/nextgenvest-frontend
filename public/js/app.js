@@ -17,21 +17,57 @@ app.controller('loanOptions', function($scope, loanService) {
 
 app.controller('loanForm', function($scope) {
     $scope.submit = function(loan) {
-        calcMonthlyPayment(loan.amount, loan.interest, loan.period)
+        var monthlyInterest = loan.interest / 12;
+
+        var monthlyPayment = calcMonthlyPayment(loan.amount, monthlyInterest, loan.period);
+        var amountPaid = calcAmountPaid(monthlyPayment, loan.period);
+        var chartData = calcChartData(loan.amount, monthlyInterest, loan.period, monthlyPayment);
+
+        console.log(monthlyPayment, amountPaid);
+        console.log(chartData);
     };
 
-    var calcMonthlyPayment = function(amount, interest, period) {
+    var calcMonthlyPayment = function(amount, monthlyInterest, period) {
         // FORMULA M = P * (J / (1 - (1 + J)^-N))
         // M = payment amount
         // P = principal (amount borrowed)
         // J = interest rate
         // N = number of payments (time)
 
-        var monthlyInterest = interest / 12;
-
         var monthlyPayment = amount * (monthlyInterest / (1 - (Math.pow(1 + monthlyInterest, (-1 * period)))));
-        console.log(monthlyPayment);
         return monthlyPayment;
+    };
+
+    var calcAmountPaid = function(monthlyPayment, period) {
+        return monthlyPayment * period;
+    };
+
+    var calcChartData = function(amount, monthlyInterest, period, monthlyPayment) {
+        var totalPayments = [];
+
+        var principalPaid = 0;
+
+        var interestPaid = 0;
+
+        var principalRemaining = amount;
+
+        var totalPaid = 0;
+
+        for (var i = 0; i < period; i++) {
+            totalPaid = totalPaid + monthlyPayment;
+
+            var month = 'Month ' + i;
+
+            principalPaid = monthlyPayment - (principalRemaining * monthlyInterest);
+
+            interestPaid = monthlyPayment - principalPaid;
+
+            principalRemaining -= principalPaid;
+
+            totalPayments.push({totalPaid: totalPaid, month: month, principalPaid: principalPaid, interestPaid: interestPaid, principalRemaining: principalRemaining});
+        }
+
+        return totalPayments;
     }
 });
 
