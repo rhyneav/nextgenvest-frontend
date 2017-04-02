@@ -1,0 +1,90 @@
+$font-stack: Helvetica, sans-serif;
+$primary-color: #333;
+$secondary-color: #666;
+
+$break-small: 480px;
+$break-medium: 768px;
+$break-large: 992px;
+$break-extra-large: 1200px;
+
+$size-full: 90%;
+$size-half: ($size-full / 2);
+$size-third: ($size-full / 3);
+$size-quarter: ($size-full / 4);
+
+$margin: 5%;
+
+@mixin component-sizing() {
+  width: $size-full;
+  float: left;
+
+  margin: ($margin / 3);
+
+  @media screen and (min-width: $break-medium) {
+    width: $size-half;
+  }
+
+  @media screen and (min-width: $break-extra-large) {
+    width: $size-third;
+  }
+}
+
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+
+.subtitle {
+  color: $secondary-color;
+}
+
+.container {
+  padding: 0 5%;
+
+  @media screen and (min-width: $break-medium) {
+    padding: 0 10%;
+  }
+
+  @media screen and (min-width: $break-extra-large) {
+    padding: 0 240px;
+  }
+}
+
+.card {
+  border: 1px solid #999;
+  background-color: #FFF;
+  box-sizing: border-box;
+  -webkit-box-shadow: 2px 3px 16px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 3px 16px -4px rgba(0,0,0,0.75);
+  box-shadow: 2px 3px 16px -4px rgba(0,0,0,0.75);
+
+  padding: 16px;
+}
+
+.loan-options {
+  @include component-sizing();
+}
+
+.loan-form {
+  @include component-sizing();
+
+  input {
+    margin: 6px 0;
+    width: 100%;
+  }
+}
+
+.loan-computed {
+  @include component-sizing();
+}
+
+.loan-chart {
+  float: left;
+  margin-top: $margin;
+  width: 100%;
+
+  @media screen and (min-width: $break-extra-large) {
+    width: ($size-third * 2 + ($margin));
+  }
+}

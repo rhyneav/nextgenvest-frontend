@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Loan Calculator App</title>
+
+    <link rel="stylesheet" href="css/style.css"> <!-- my styles -->
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.js"></script><!-- load angular -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script><!-- load chart.js -->
@@ -10,29 +14,30 @@
     <script src="js/app.js"></script> <!-- load app -->
 </head>
 <body>
-    <div ng-app="loanApp">
-        <div ng-controller="infoCtrl">
-            <h1>App is running!</h1>
-            <h3>Angular is working? {{ isWorking }}</h3>
+    <div ng-app="loanApp" class="container">
+        <div ng-controller="infoCtrl" class="info">
+            <h1>Loan Payment Calculator and Graph | <span class="subtitle">Visualize your loan!</span></h1>
+            <h3 class="subtitle"></h3>
         </div>
 
-        <div ng-controller="loanOptions" class="loan-options">
+        <div ng-controller="loanOptions" class="loan-options card">
+            <h2>Current Loan Options</h2>
             <div ng-repeat="option in loanOptions" >
                 {{option.name}} | ({{option.interest}}%)
             </div>
         </div>
 
-        <div ng-controller="loanForm" class="loan-form">
+        <div ng-controller="loanForm" class="loan-form card">
             <h2>Enter Loan Details</h2>
             <form>
                 <div class="form-field">
-                    <label>Loan Amount: <input type="text" ng-model="loan.amount" placeholder="ex: 50000" /></label>
+                    <label>Loan Amount: <br><input type="text" ng-model="loan.amount" placeholder="ex: 50000" /></label>
                 </div>
                 <div class="form-field">
-                    <label>Loan Interest: <input type="text" ng-model="loan.interest" placeholder="ex: .03" /></label>
+                    <label>Loan Interest: <br><input type="text" ng-model="loan.interest" placeholder="ex: .03" /></label>
                 </div>
                 <div class="form-field">
-                    <label>Loan Period (in months): <input type="text" ng-model="loan.period" placeholder="ex: 60" /></label>
+                    <label>Loan Period (in months): <br><input type="text" ng-model="loan.period" placeholder="ex: 60" /></label>
                 </div>
                 <div class="form-field">
                     <input type="button" ng-click="submit(loan)" value="Submit" />
@@ -41,7 +46,17 @@
             </form>
         </div>
 
-        <div ng-controller="loanChart" class="loan-chart">
+        <div ng-controller="loanComputed" class="loan-computed card">
+            <h2>Loan Payment Details</h2>
+            <div class="computed-values">
+                <h4>Loan Amount: ${{ loanAmount }} </h4>
+                <h4>Monthly Payments: ${{ monthlyPayment }}</h4>
+                <h4>Total Paid after {{ months }} Months: ${{ totalPaid }}</h4>
+            </div>
+        </div>
+
+        <div ng-controller="loanChart" class="loan-chart card">
+            <h2>Loan Visualized</h2>
             <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
                     chart-series="series" chart-click="onClick"></canvas>
         </div>

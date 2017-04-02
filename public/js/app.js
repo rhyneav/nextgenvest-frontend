@@ -16,6 +16,16 @@ app.controller('loanOptions', function($scope, loanService) {
 });
 
 app.controller('loanForm', function($scope, $rootScope) {
+    var roundToTwo = function(num) {
+        var rounded = +(Math.round(num + "e+2")  + "e-2");
+
+        if (isNaN(rounded)) {
+            return 0;
+        } else {
+            return rounded;
+        }
+    };
+
     $scope.submit = function(loan) {
         var monthlyInterest = loan.interest / 12;
 
@@ -25,6 +35,11 @@ app.controller('loanForm', function($scope, $rootScope) {
 
         console.log(monthlyPayment, amountPaid);
         console.log(chartData);
+
+        $rootScope.$broadcast('NEW_DATA', chartData);
+        $rootScope.$broadcast('NEW_DATA_DETAILS', {months: loan.period, loanAmount: loan.amount, monthlyPayment: roundToTwo(monthlyPayment), totalPaid: roundToTwo(amountPaid)});
+
+
     };
 
     var calcMonthlyPayment = function(amount, monthlyInterest, period) {
@@ -55,16 +70,6 @@ app.controller('loanForm', function($scope, $rootScope) {
 
         var totalPaid = 0;
 
-        var roundToTwo = function(num) {
-            var rounded = +(Math.round(num + "e+2")  + "e-2");
-
-            if (isNaN(rounded)) {
-                return 0;
-            } else {
-                return rounded;
-            }
-        };
-
         for (var i = 0; i < period; i++) {
             totalPaid = totalPaid + monthlyPayment;
 
@@ -81,10 +86,22 @@ app.controller('loanForm', function($scope, $rootScope) {
             totalPayments.push({totalPaid: roundToTwo(totalPaid), month: month, principalPaid: roundToTwo(totalPrincipalPaid), interestPaid: roundToTwo(totalInterestPaid), principalRemaining: roundToTwo(principalRemaining)});
         }
 
-        $rootScope.$broadcast('NEW_DATA', totalPayments);
-
         return totalPayments;
     }
+});
+
+app.controller('loanComputed', function ($scope, $rootScope) {
+    $scope.months = 0;
+    $scope.loanAmount = 0;
+    $scope.monthlyPayment = 0;
+    $scope.totalPaid = 0;
+
+    $rootScope.$on('NEW_DATA_DETAILS', function(event, data) {
+        $scope.months = data.months;
+        $scope.loanAmount = data.loanAmount;
+        $scope.monthlyPayment = data.monthlyPayment;
+        $scope.totalPaid = data.totalPaid;
+    });
 });
 
 app.controller('loanChart', function($scope, $rootScope) {
