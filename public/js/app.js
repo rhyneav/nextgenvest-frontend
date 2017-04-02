@@ -1,4 +1,4 @@
-var app = angular.module('loanApp', []);
+var app = angular.module('loanApp', ['chart.js']);
 
 app.controller('infoCtrl', function($scope) {
     $scope.isWorking= "Yes";
@@ -15,7 +15,7 @@ app.controller('loanOptions', function($scope, loanService) {
     $scope.getLoanOptions();
 });
 
-app.controller('loanForm', function($scope) {
+app.controller('loanForm', function($scope, $rootScope) {
     $scope.submit = function(loan) {
         var monthlyInterest = loan.interest / 12;
 
@@ -46,12 +46,24 @@ app.controller('loanForm', function($scope) {
         var totalPayments = [];
 
         var principalPaid = 0;
+        var totalPrincipalPaid = 0;
 
         var interestPaid = 0;
+        var totalInterestPaid = 0;
 
         var principalRemaining = amount;
 
         var totalPaid = 0;
+
+        var roundToTwo = function(num) {
+            var rounded = +(Math.round(num + "e+2")  + "e-2");
+
+            if (isNaN(rounded)) {
+                return 0;
+            } else {
+                return rounded;
+            }
+        };
 
         for (var i = 0; i < period; i++) {
             totalPaid = totalPaid + monthlyPayment;
@@ -59,16 +71,54 @@ app.controller('loanForm', function($scope) {
             var month = 'Month ' + i;
 
             principalPaid = monthlyPayment - (principalRemaining * monthlyInterest);
+            totalPrincipalPaid += principalPaid;
 
             interestPaid = monthlyPayment - principalPaid;
+            totalInterestPaid += interestPaid;
 
             principalRemaining -= principalPaid;
 
-            totalPayments.push({totalPaid: totalPaid, month: month, principalPaid: principalPaid, interestPaid: interestPaid, principalRemaining: principalRemaining});
+            totalPayments.push({totalPaid: roundToTwo(totalPaid), month: month, principalPaid: roundToTwo(totalPrincipalPaid), interestPaid: roundToTwo(totalInterestPaid), principalRemaining: roundToTwo(principalRemaining)});
         }
+
+        $rootScope.$broadcast('NEW_DATA', totalPayments);
 
         return totalPayments;
     }
+});
+
+app.controller('loanChart', function($scope, $rootScope) {
+    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.series = ['Total Interest Paid', 'Total Principal Paid', 'Total Paid', 'Principal Remaining'];
+    $scope.data = [];
+
+    $scope.onClick = function (points, evt) {
+        console.log(points, evt);
+    };
+
+    $rootScope.$on('NEW_DATA', function(event, data) {
+        console.log(data);
+
+        var labels = [];
+
+        var interestPaid = [];
+        var principalPaid = [];
+        var totalPaid = [];
+
+        var principalRemaining = [];
+
+        for (var i = 0; i < data.length; i++) {
+            labels.push(data[i].month);
+
+            interestPaid.push(data[i].interestPaid);
+            principalPaid.push(data[i].principalPaid);
+            totalPaid.push(data[i].totalPaid);
+            principalRemaining.push(data[i].principalRemaining);
+        }
+
+        $scope.labels = labels;
+        $scope.data = [interestPaid, principalPaid, totalPaid, principalRemaining];
+    });
 });
 
 app.service('loanService', function($timeout) {
