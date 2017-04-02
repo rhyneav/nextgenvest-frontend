@@ -15,7 +15,7 @@ $size-quarter: ($size-full / 4);
 $margin: 5%;
 
 @mixin component-sizing() {
-  width: $size-full;
+  width: 100%;
   float: left;
 
   margin: ($margin / 3);
@@ -75,16 +75,20 @@ body {
   }
 }
 
+.loan-recent {
+  @include component-sizing();
+}
+
 .loan-computed {
   @include component-sizing();
 }
 
 .loan-chart {
   float: left;
-  margin-top: $margin;
+  margin: $margin / 3;
   width: 100%;
 
   @media screen and (min-width: $break-extra-large) {
-    width: ($size-third * 2 + ($margin));
+    width: ($size-third * 2 + ($margin / 1.5));
   }
 }

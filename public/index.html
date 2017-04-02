@@ -46,6 +46,25 @@
             </form>
         </div>
 
+        <div ng-controller="loanRecent" class="loan-recent card">
+            <h2>Recent Searches</h2>
+            <div class="searched">
+                <div class="item" ng-repeat="search in recentSearches">
+                    <h4>Search Items</h4>
+                    <p>Amount: {{ search.amount }}</p>
+                    <p>Interest: {{ search.interest }}</p>
+                    <p>Period: {{ search.period }}</p>
+                </div>
+            </div>
+            <button ng-click="clear()">Clear</button>
+        </div>
+
+        <div ng-controller="loanChart" class="loan-chart card">
+            <h2>Loan Visualized</h2>
+            <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
+                    chart-series="series" chart-click="onClick"></canvas>
+        </div>
+
         <div ng-controller="loanComputed" class="loan-computed card">
             <h2>Loan Payment Details</h2>
             <div class="computed-values">
@@ -53,12 +72,6 @@
                 <h4>Monthly Payments: ${{ monthlyPayment }}</h4>
                 <h4>Total Paid after {{ months }} Months: ${{ totalPaid }}</h4>
             </div>
-        </div>
-
-        <div ng-controller="loanChart" class="loan-chart card">
-            <h2>Loan Visualized</h2>
-            <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
-                    chart-series="series" chart-click="onClick"></canvas>
         </div>
 
     </div>

@@ -38,6 +38,7 @@ app.controller('loanForm', function($scope, $rootScope) {
 
         $rootScope.$broadcast('NEW_DATA', chartData);
         $rootScope.$broadcast('NEW_DATA_DETAILS', {months: loan.period, loanAmount: loan.amount, monthlyPayment: roundToTwo(monthlyPayment), totalPaid: roundToTwo(amountPaid)});
+        $rootScope.$broadcast('NEW_SEARCH', {amount: loan.amount, interest: loan.interest, period: loan.period});
 
 
     };
@@ -102,6 +103,18 @@ app.controller('loanComputed', function ($scope, $rootScope) {
         $scope.monthlyPayment = data.monthlyPayment;
         $scope.totalPaid = data.totalPaid;
     });
+});
+
+app.controller('loanRecent', function($scope, $rootScope) {
+    $scope.recentSearches = [];
+
+    $rootScope.$on('NEW_SEARCH', function(event, loan) {
+        $scope.recentSearches.unshift({amount: loan.amount, interest: loan.interest, period: loan.period})
+    });
+
+    $scope.clear = function() {
+        $scope.recentSearches = [];
+    }
 });
 
 app.controller('loanChart', function($scope, $rootScope) {
