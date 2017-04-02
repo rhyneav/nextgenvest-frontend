@@ -23,7 +23,7 @@
         <div ng-controller="loanOptions" class="loan-options card">
             <h2>Current Loan Options</h2>
             <div ng-repeat="option in loanOptions" >
-                {{option.name}} | ({{option.interest}}%)
+                {{option.name}}: {{option.interest}}% ({{option.interest / 100}})
             </div>
         </div>
 

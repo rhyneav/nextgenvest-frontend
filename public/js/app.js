@@ -8,8 +8,10 @@ app.controller('loanOptions', function($scope, loanService) {
     $scope.loanOptions = [];
 
     $scope.getLoanOptions = function() {
-        loanService.getLoanOptions().then(function (res) {
-            $scope.loanOptions = res;
+        loanService.getLoanOptions().then(function(res) {
+            $scope.loanOptions = res.data;
+        }, function(res) {
+            $scope.loanOptions = [{name: 'Oops! Something went wrong with the server!', interest: 500}]
         });
     };
     $scope.getLoanOptions();
@@ -151,30 +153,12 @@ app.controller('loanChart', function($scope, $rootScope) {
     });
 });
 
-app.service('loanService', function($timeout) {
-    var loanOptions =  [
-        {
-            name: 'Direct Subsidized Loan',
-            interest: 1
-        },
-        {
-            name: 'Direct Unsubsidized Loan',
-            interest: 2
-        },
-        {
-            name: 'A private bank loan',
-            interest: 3
-        },
-        {
-            name: 'A loan from the university',
-            interest: 4
-        },
-    ];
-
+app.service('loanService', function($http) {
     var getLoanOptions = function() {
-        return $timeout(function() {
-            return loanOptions
-        }, 1000);
+        return $http({
+            method: 'GET',
+            url: '/api/directloaninfo'
+        })
     };
 
     return {
