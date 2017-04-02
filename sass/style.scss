@@ -2,6 +2,8 @@ $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 $secondary-color: #666;
 
+$button-color: #0078e7;
+
 $break-small: 480px;
 $break-medium: 768px;
 $break-large: 992px;
@@ -26,6 +28,23 @@ $margin: 5%;
 
   @media screen and (min-width: $break-extra-large) {
     width: $size-third;
+  }
+}
+
+.btn {
+  background-color: $button-color;
+  color: #fff;
+  padding: .5em 1em;
+  border: transparent;
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+
+  -webkit-transition: background-color .5s;
+  transition: background-color .5s;
+
+  &:hover {
+    background-color: darken($button-color, 10%);
   }
 }
 
@@ -62,6 +81,11 @@ body {
   padding: 16px;
 }
 
+.info {
+  margin: 120px 0;
+  text-align: center;
+}
+
 .loan-options {
   @include component-sizing();
 }
@@ -70,7 +94,7 @@ body {
   @include component-sizing();
 
   input {
-    margin: 6px 0;
+    margin: 6px 0 12px;
     width: 100%;
   }
 }
