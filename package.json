@@ -21,7 +21,9 @@
   "dependencies": {
     "angular": "^1.6.3",
     "body-parser": "^1.17.1",
+    "cheerio": "^0.22.0",
     "express": "^4.15.2",
-    "npm-sass": "^2.0.0"
+    "npm-sass": "^2.0.0",
+    "request": "^2.81.0"
   }
 }
