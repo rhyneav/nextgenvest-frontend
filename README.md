@@ -1,5 +1,5 @@
 # nextgenvest-frontend
-For the front-end application
+For the [NextGenVest front-end application](https://github.com/NextGenVest/challenge)
 
 Compatible with Node version 6.9.0 or higher
 
