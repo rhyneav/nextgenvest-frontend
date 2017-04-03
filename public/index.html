@@ -26,7 +26,7 @@
                 <p>
                     {{option.name}}: <b>{{option.interest}}%</b>
                     <br>
-                    <a href="#">Use: {{option.interest / 100 | number : 4}}</a>
+                    <a href="javascript:;" ng-click="sendToForm(option.interest / 100 | number: 4)"><em>Use: {{option.interest / 100 | number : 4}}</em></a>
                 </p>
             </div>
         </div>
@@ -54,10 +54,10 @@
             <h2>Recent Searches</h2>
             <div class="searched">
                 <div class="item" ng-repeat="search in recentSearches">
-                    <h4>Search Items</h4>
-                    <p>Amount: {{ search.amount }}</p>
-                    <p>Interest: {{ search.interest }}</p>
-                    <p>Period: {{ search.period }}</p>
+                    <h4>Search Item</h4>
+                    <p>Amount: <b>${{ search.amount }}</b></p>
+                    <p>Interest: <b>{{ search.interest }}</b></p>
+                    <p>Period: <b>{{ search.period }}</b></p>
                 </div>
             </div>
             <button ng-click="clear()" class="btn">Clear</button>

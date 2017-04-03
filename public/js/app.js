@@ -4,7 +4,7 @@ app.controller('infoCtrl', function($scope) {
     $scope.isWorking= "Yes";
 });
 
-app.controller('loanOptions', function($scope, loanService) {
+app.controller('loanOptions', function($scope, $rootScope, loanService) {
     $scope.loanOptions = [];
 
     $scope.getLoanOptions = function() {
@@ -14,10 +14,17 @@ app.controller('loanOptions', function($scope, loanService) {
             $scope.loanOptions = [{name: 'Oops! Something went wrong with the server!', interest: 500}]
         });
     };
+
+    $scope.sendToForm = function (interest) {
+        $rootScope.$broadcast('ADD_INTEREST', interest);
+    };
+
     $scope.getLoanOptions();
 });
 
 app.controller('loanForm', function($scope, $rootScope) {
+    $scope.loan = {};
+
     var roundToTwo = function(num) {
         var rounded = +(Math.round(num + "e+2")  + "e-2");
 
@@ -35,15 +42,14 @@ app.controller('loanForm', function($scope, $rootScope) {
         var amountPaid = calcAmountPaid(monthlyPayment, loan.period);
         var chartData = calcChartData(loan.amount, monthlyInterest, loan.period, monthlyPayment);
 
-        console.log(monthlyPayment, amountPaid);
-        console.log(chartData);
-
         $rootScope.$broadcast('NEW_DATA', chartData);
         $rootScope.$broadcast('NEW_DATA_DETAILS', {months: loan.period, loanAmount: loan.amount, monthlyPayment: roundToTwo(monthlyPayment), totalPaid: roundToTwo(amountPaid)});
         $rootScope.$broadcast('NEW_SEARCH', {amount: loan.amount, interest: loan.interest, period: loan.period});
-
-
     };
+
+    $rootScope.$on('ADD_INTEREST', function(event, interest) {
+        $scope.loan.interest = interest;
+    });
 
     var calcMonthlyPayment = function(amount, monthlyInterest, period) {
         // FORMULA M = P * (J / (1 - (1 + J)^-N))
@@ -124,13 +130,7 @@ app.controller('loanChart', function($scope, $rootScope) {
     $scope.series = ['Total Interest Paid', 'Total Principal Paid', 'Total Paid', 'Principal Remaining'];
     $scope.data = [];
 
-    $scope.onClick = function (points, evt) {
-        console.log(points, evt);
-    };
-
     $rootScope.$on('NEW_DATA', function(event, data) {
-        console.log(data);
-
         var labels = [];
 
         var interestPaid = [];
