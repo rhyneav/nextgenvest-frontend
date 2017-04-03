@@ -7,8 +7,8 @@ const DSL = 'Direct Subsidized Loans';
 const DUL = 'Direct Unsubsidized Loans';
 
 // Placeholders for if page format changes
-var dslAmount = '9.76';
-var dulAmount = '9.76';
+var dslAmount = '4.00';
+var dulAmount = '4.00';
 
 var scrapePage = new Promise((resolve, reject) => {
 
