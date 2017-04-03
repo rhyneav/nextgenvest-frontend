@@ -4,9 +4,12 @@
   "description": "For the nextgenvest application",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "npm run build-css && node server/server.js",
     "build-css": "npm-sass ./sass/style.scss > ./public/css/style.css",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "6.2.2"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,6 @@
   },
   "homepage": "https://github.com/rhyneav/nextgenvest-frontend#readme",
   "dependencies": {
-    "angular": "^1.6.3",
     "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
     "express": "^4.15.2",
