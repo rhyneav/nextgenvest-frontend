@@ -1,18 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
+const { scrapePage } = require('../scrape');
+
 module.exports = router;
 
 router.get('/directloaninfo', (req, res) => {
     var loanOptions =  [
-        {
-            name: 'Direct Subsidized Loan',
-            interest: 1
-        },
-        {
-            name: 'Direct Unsubsidized Loan',
-            interest: 2
-        },
         {
             name: 'A private bank loan',
             interest: 4.2
@@ -20,8 +14,20 @@ router.get('/directloaninfo', (req, res) => {
         {
             name: 'A loan from the university',
             interest: 4
-        },
+        }
     ];
 
-    res.send(loanOptions);
+    scrapePage.then((data) => {
+        loanOptions.push({
+                name: 'Direct Subsidized Loan',
+                interest: data.dsl
+            },
+            {
+                name: 'Direct Unsubsidized Loan',
+                interest: data.dul
+            });
+
+        res.send(loanOptions);
+    });
+
 });
